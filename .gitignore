@@ -1,0 +1,12 @@
+# File mo phong da bien dich
+simv
+*.out
+
+# File sao luu
+*.bak
+*.save
+*.save.*
+*~
+
+# File tam
+*.tmp
