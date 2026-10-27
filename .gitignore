@@ -10,3 +10,29 @@ simv
 
 # File tam
 *.tmp
+
+# Simulation outputs
+__pycache__/
+sim_build/
+results.xml
+*.fst
+*.vcd
+test_log.txt
+nano.*.save
+
+# Physical design outputs
+runs/
+pnr/
+
+# Simulation outputs
+__pycache__/
+sim_build/
+results.xml
+*.fst
+*.vcd
+test_log.txt
+nano.*.save
+
+# Physical design outputs
+runs/
+pnr/
