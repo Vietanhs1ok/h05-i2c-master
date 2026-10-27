@@ -54,8 +54,6 @@ async def start_transaction(dut, address, data, ack_value=0):
     # uio_in[0] = 0 simulates ACK.
     # uio_in[0] = 1 simulates NACK.
     dut.uio_in.value = ack_value & 1
-```
-
 
 async def finish_transaction(dut):
     """Wait for DONE and release the START request."""
