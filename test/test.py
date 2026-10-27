@@ -81,7 +81,6 @@ async def finish_transaction(dut):
     # Release START request.
     dut.ui_in.value = 0
     await ClockCycles(dut.clk, 2)
-```
 @cocotb.test()
 async def test_i2c_ack(dut):
     """Test a transaction with ACK."""
