@@ -54,27 +54,34 @@ async def start_transaction(dut, address, data, ack_value=0):
     # uio_in[0] = 0 simulates ACK.
     # uio_in[0] = 1 simulates NACK.
     dut.uio_in.value = ack_value & 1
-
 async def finish_transaction(dut):
     """Wait for DONE and release the START request."""
 
     for _ in range(10000):
         await ClockCycles(dut.clk, 1)
 
-raw_output = str(dut.uo_out.value)
+        raw_output = str(dut.uo_out.value)
 
-if any(bit not in "01" for bit in raw_output):
-    assert False, f"uo_out contains X/Z: {raw_output}"
+        if any(bit not in "01" for bit in raw_output):
+            assert False, f"uo_out contains X/Z: {raw_output}"
 
-output = int(raw_output, 2)
+        output = int(raw_output, 2)
 
-    # BUSY should be low after completion.
-    assert not (output & 0x10), (
-        f"BUSY should be low after transaction, "
-        f"uo_out=0x{output:02X}"
-    )
+        # BUSY should be low after completion.
+        assert not (output & 0x10), (
+            f"BUSY should be low after transaction, "
+            f"uo_out=0x{output:02X}"
+        )
 
-
+        if output & 0x04:
+            break
+    else:
+        assert False, "I2C Master did not finish transaction"
+    
+    # Release START request.
+    dut.ui_in.value = 0
+    await ClockCycles(dut.clk, 2)
+```
 @cocotb.test()
 async def test_i2c_ack(dut):
     """Test a transaction with ACK."""
