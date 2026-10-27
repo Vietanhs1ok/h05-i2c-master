@@ -64,18 +64,12 @@ async def finish_transaction(dut):
     for _ in range(10000):
         await ClockCycles(dut.clk, 1)
 
-        output = int(dut.uo_out.value)
+raw_output = str(dut.uo_out.value)
 
-        if output & 0x04:
-            break
-    else:
-        output = int(dut.uo_out.value)
-        assert False, (
-            "Timeout waiting for DONE. "
-            f"uo_out=0x{output:02X}, "
-            f"busy={(output >> 4) & 1}, "
-            f"error={(output >> 3) & 1}"
-        )
+if any(bit not in "01" for bit in raw_output):
+    assert False, f"uo_out contains X/Z: {raw_output}"
+
+output = int(raw_output, 2)
 
     # BUSY should be low after completion.
     assert not (output & 0x10), (
