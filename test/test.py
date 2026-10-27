@@ -19,7 +19,6 @@ async def reset_dut(dut):
     await ClockCycles(dut.clk, 10)
 
 
-```python
 async def start_transaction(dut, address, data, ack_value=0):
     """Start an I2C transaction and simulate the slave ACK/NACK."""
 
