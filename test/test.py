@@ -19,6 +19,7 @@ async def reset_dut(dut):
     await ClockCycles(dut.clk, 10)
 
 
+```python
 async def start_transaction(dut, address, data, ack_value=0):
     """Start an I2C transaction and simulate the slave ACK/NACK."""
 
@@ -33,21 +34,28 @@ async def start_transaction(dut, address, data, ack_value=0):
     for _ in range(500):
         await ClockCycles(dut.clk, 1)
 
-        output = int(dut.uo_out.value)
+        raw_output = str(dut.uo_out.value)
+
+        if any(bit not in "01" for bit in raw_output):
+            assert False, (
+                f"uo_out contains X/Z: {raw_output}"
+            )
+
+        output = int(raw_output, 2)
 
         if output & 0x10:
             break
     else:
-        output = int(dut.uo_out.value)
+        raw_output = str(dut.uo_out.value)
         assert False, (
             "I2C Master did not enter BUSY state. "
-            f"uo_out=0x{output:02X}"
+            f"uo_out={raw_output}"
         )
 
-    # The data byte should have been latched by the DUT.
     # uio_in[0] = 0 simulates ACK.
     # uio_in[0] = 1 simulates NACK.
     dut.uio_in.value = ack_value & 1
+```
 
 
 async def finish_transaction(dut):
