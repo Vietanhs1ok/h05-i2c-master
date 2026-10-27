@@ -9,6 +9,7 @@ from cocotb.triggers import ClockCycles
 async def reset_dut(dut):
     """Reset the DUT and initialize all inputs."""
 
+    dut.ena.value = 1
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
@@ -17,8 +18,6 @@ async def reset_dut(dut):
 
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 10)
-
-
 async def start_transaction(dut, address, data, ack_value=0):
     """Start an I2C transaction and simulate the slave ACK/NACK."""
 
