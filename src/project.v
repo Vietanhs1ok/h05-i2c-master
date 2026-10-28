@@ -1,6 +1,6 @@
 
 module tt_um_i2c_master #(
-    parameter integer CLK_DIV = 125
+    parameter integer CLK_DIV = 1
 ) (
     input  wire [7:0] ui_in,
     output wire [7:0] uo_out,
