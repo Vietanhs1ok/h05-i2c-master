@@ -228,15 +228,15 @@ module tt_um_i2c_master #(
                 // FINISH: wait until start request is deasserted
                 // -------------------------------------------------
                 FINISH: begin
-                    scl     <= 1'b1;
+                    scl <= 1'b1;
                     sda_low <= 1'b0;
-                    busy    <= 1'b0;
+                    done <= 1'b1;
+                    busy <= 1'b0;
 
                     if (!ui_in[7]) begin
-                        done  <= 1'b0;
                         state <= IDLE;
                     end
-                end
+                 end
 
                 // -------------------------------------------------
                 // Default recovery
