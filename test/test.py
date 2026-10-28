@@ -73,7 +73,7 @@ async def reset_dut(dut):
 
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 10)
-```python
+    
 async def finish_transaction(dut):
     """Wait for DONE, then check BUSY and release START."""
 
@@ -108,7 +108,7 @@ async def finish_transaction(dut):
     # Nhả yêu cầu START.
     dut.ui_in.value = 0
     await ClockCycles(dut.clk, 2)
-```
+
 
 @cocotb.test()
 async def test_i2c_ack(dut):
